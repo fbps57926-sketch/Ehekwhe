@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Rizky Akbar Maulidhani</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f3f3f3; margin: 0; }
+        #main { max-width: 400px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 0 12px #ddd; padding: 30px; }
+        h2 { text-align: center; }
+        label { display: block; margin: 16px 0 8px; }
+        input[type=text],
+        input[type=password] { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #2196f3; color: white; border: none; padding: 10px 16px; border-radius: 4px; margin-top: 16px; cursor: pointer; width: 100%;}
+        button:hover { background: #1565c0; }
+        .menu { display: flex; gap: 8px; margin-top: 20px; justify-content: center;}
+        .menu button { width: auto; padding: 8px 20px; }
+        .section { display: none; }
+        .active { display: block !important; }
+        .motivasi { font-style: italic; color: #444; margin-top: 12px; }
+        ul { padding-left: 18px; }
+        a { color: #2196f3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="login-section" class="section active">
+        <h2>Login</h2>
+        <form id="login-form" autocomplete="off">
+            <label for="username">Username</label>
+            <input type="text" id="username" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" required>
+            <button type="submit">Masuk</button>
+            <div id="login-error" style="color:red; display:none; margin-top:8px;"></div>
+        </form>
+    </div>
+    <div id="menu-section" class="section">
+        <div class="menu">
+            <button onclick="showSection('home-section')">Home</button>
+            <button onclick="showSection('game-section')">Game</button>
+            <button onclick="showSection('socmed-section')">Medsos</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+        <div id="home-section" class="section active">
+            <h2>M. Rizky Akbar Maulidhani</h2>
+            <div class="motivasi">"Sukses adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan."</div>
+        </div>
+        <div id="game-section" class="section">
+            <h2>Game Rekomendasi</h2>
+            <ul>
+                <li><a href="https://www.crazygames.com/" target="_blank">Crazy Games</a></li>
+                <li><a href="https://poki.com/" target="_blank">Poki Game</a></li>
+            </ul>
+        </div>
+        <div id="socmed-section" class="section">
+            <h2>Media Sosial Saya</h2>
+            <ul>
+                <li>
+                    <a href="https://www.tiktok.com/@dhanigloball" target="_blank">TikTok @dhanigloball</a>
+                </li>
+                <li>
+                    <a href="https://wa.me/6281234567890" target="_blank">WhatsApp Langsung</a>
+                    <!-- Ganti nomor di atas dg nomor WhatsApp Anda. -->
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+// Simple login
+const PASSWORD = "adminjawa";
+document.getElementById('login-form').onsubmit = function(e) {
+    e.preventDefault();
+    let user = document.getElementById('username').value.trim();
+    let pass = document.getElementById('password').value;
+    if (pass === PASSWORD) {
+        document.getElementById('login-section').classList.remove('active');
+        document.getElementById('menu-section').classList.add('active');
+        showSection('home-section');
+        document.getElementById('login-form').reset();
+        document.getElementById('login-error').style.display = 'none';
+        localStorage.setItem('login', 'ok');
+    } else {
+        document.getElementById('login-error').innerText = 'Password salah.';
+        document.getElementById('login-error').style.display = 'block';
+    }
+};
+
+// Menu switching
+function showSection(id) {
+    let sections = ['home-section', 'game-section', 'socmed-section'];
+    for (let sec of sections) {
+        document.getElementById(sec).classList.remove('active');
+    }
+    document.getElementById(id).classList.add('active');
+}
+
+// Logout
+function logout() {
+    localStorage.removeItem('login');
+    document.getElementById('menu-section').classList.remove('active');
+    document.getElementById('login-section').classList.add('active');
+}
+
+// Auto-login (opsional, jika di-refresh)
+if(localStorage.getItem('login') === 'ok') {
+    document.getElementById('login-section').classList.remove('active');
+    document.getElementById('menu-section').classList.add('active');
+    showSection('home-section');
+}
+</script>
+</body>
+</html>
